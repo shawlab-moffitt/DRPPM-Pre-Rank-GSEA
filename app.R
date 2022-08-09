@@ -17,7 +17,7 @@ invisible(lapply(bioCpacks, library, character.only = TRUE))
 
 ####----File Input----####
 
-GeneSet_File <- "GeneSets.txt"
+GeneSet_File <- "GeneSets.zip"
 
 
 ####----Read In and Sort File----####
