@@ -8,6 +8,13 @@ Here we focus on Gene Set Enrichment Analysis (GSEA) with a pre-ranked list of g
 
 An example Pre-Ranked GSEA R Shiny App is hosted here: http://shawlab.science/shiny/DRPPM_PATH_SURVEIOR_PreRanked_GSEA_App/ where you are welcome to use the example inputs provided in the GitHub or your own to explore.
 
+## The DRPPM-PATH-SURVEIOR Family
+
+* R Shiny Base Survival App [Interactive Mode]: https://github.com/shawlab-moffitt/DRPPM-PATH-SURVEIOR
+* R Script for Cox Proportional Hazards Ranking [Pipeline Mode]: https://github.com/shawlab-moffitt/DRPPM-PATH-SURVEIOR-Pipeline
+* R Shiny Jaccard Connectivity App: https://github.com/shawlab-moffitt/DRPPM-Jaccard-Pathway-Connectivity
+* R Shiny Pre-Ranked GSEA App: https://github.com/shawlab-moffitt/DRPPM-PreRanked-GSEA
+
 ![alt text](https://github.com/shawlab-moffitt/DRPPM-PreRanked-GSEA/blob/main/App_Pictures/FlowChart_PreRankedGSEA.png?raw=true)
 
 # Installation
