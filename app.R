@@ -15,6 +15,7 @@ if (any(installed_packages_BIOC == FALSE)) {
 }
 invisible(lapply(bioCpacks, library, character.only = TRUE))
 
+
 ####----File Input----####
 
 GeneSet_File <- "GeneSets.zip"
@@ -28,17 +29,15 @@ hallmark <- msigdb[which(grepl("HALLMARK",msigdb$term)),]
 lincsu <- GeneSet[which(GeneSet$GeneSet == "lincsu"),]
 lincsd <- GeneSet[which(GeneSet$GeneSet == "lincsd"),]
 cellm <- GeneSet[which(GeneSet$GeneSet == "cellm"),]
-
-comp <- rbind(msigdb,lincsu,lincsd,cellm,hallmark)
-
-
+immunesig <- GeneSet[which(GeneSet$GeneSet == "ImmuneSig"),]
+erstress <- GeneSet[which(GeneSet$GeneSet == "ERStress"),]
 
 #increase file upload size
 options(shiny.maxRequestSize=50*1024^2)
 
 
 ui <- 
-  navbarPage("{ User Ranked GSEA }",
+  navbarPage("{ Pre-Ranked GSEA }",
              
              ####----Enrichment Table----####
              
@@ -57,7 +56,7 @@ ui <-
                           ),
                           numericInput("gseaPval","GSEA Pvalue Cutoff",value = 1),
                           radioButtons("GeneSetChosen","Choose Gene Set:",
-                                       choices = c("MSigDB - Hallmark","MSigDB - All","LINCS L1000 Up-Regulated","LINCS L1000 Down-Regulated","Cell Marker","All Gene Sets","User Upload"),
+                                       choices = c("MSigDB - Hallmark","MSigDB - All","LINCS L1000 Up-Regulated","LINCS L1000 Down-Regulated","Cell Marker","ER Stress","Immune Signatures","All Gene Sets","User Upload"),
                                        selected = "MSigDB - Hallmark", inline = F),
                           fluidRow(
                             column(9,
@@ -72,8 +71,6 @@ ui <-
                           p("Please note this may take excess time depending on the number of gene sets being analyzed."),
                           uiOutput("rendEnrichTable"),
                           uiOutput("renddnldEnrichTable"),
-                          #withSpinner(DT::dataTableOutput("EnrichTable", width = "100%"), type = 6),
-                          #downloadButton("dnldEnrichTable","Download Enriched Signatures Table")
                           )
                         )
                       ),
@@ -167,7 +164,7 @@ server <- function(input, output, session) {
       if (ncol(gmt) == 1) {
         paths <- as.vector(gmt[,1])
         paths <- gsub("[[:punct:]]",".",paths)
-        gs_u <- comp[which(comp$term %in% paths),]
+        gs_u <- GeneSet[which(GeneSet$term %in% paths),]
       }
       else if (ncol(gmt) == 2) {
         colnames(gmt) <- c("term","gene")
@@ -176,7 +173,7 @@ server <- function(input, output, session) {
       else if (ncol(gmt) > 2) {
         paths <- as.vector(gmt[,1])
         paths <- gsub("[[:punct:]]",".",paths)
-        gs_u <- comp[which(comp$term %in% paths),]
+        gs_u <- GeneSet[which(GeneSet$term %in% paths),]
       }
       
     }
@@ -190,32 +187,42 @@ server <- function(input, output, session) {
     
     if (input$GeneSetChosen == "MSigDB - All") {
       
-      gmt <- msigdb
+      gmt <- msigdb[,c(1,2)]
       
     }
     else if (input$GeneSetChosen == "LINCS L1000 Up-Regulated") {
       
-      gmt <- lincsu
+      gmt <- lincsu[,c(1,2)]
       
     }
     else if (input$GeneSetChosen == "LINCS L1000 Down-Regulated") {
       
-      gmt <- lincsd
+      gmt <- lincsd[,c(1,2)]
       
     }
     else if (input$GeneSetChosen == "Cell Marker") {
       
-      gmt <- cellm
+      gmt <- cellm[,c(1,2)]
       
     }
     else if (input$GeneSetChosen == "All Gene Sets") {
       
-      gmt <- comp
+      gmt <- GeneSet[,c(1,2)]
       
     }
     else if (input$GeneSetChosen == "MSigDB - Hallmark") {
       
-      gmt <- hallmark
+      gmt <- hallmark[,c(1,2)]
+      
+    }
+    else if (input$GeneSetChosen == "ER Stress") {
+      
+      gmt <- immunesig[,c(1,2)]
+      
+    }
+    else if (input$GeneSetChosen == "Immune Signatures") {
+      
+      gmt <- erstress[,c(1,2)]
       
     }
     else if (input$GeneSetChosen == "User Upload") {
@@ -356,13 +363,6 @@ server <- function(input, output, session) {
       Pval = gsea.df$pvalue[which(gsea.df[,'ID']==GS)]
       NES.o <- paste0("NES: ", NES)
       Pval.o <- paste0("Pvalue: ", Pval)
-      #if (NES > 0){
-      #  UpOrDown <- paste("Based on the normalized enrichment score above, the", GS, "gene set is upregulated in", input$comparisonA , "group.")
-      #}
-      #else {
-      #  UpOrDown <- paste("Based on the normalized enrichment score above, the", GS, "gene set is downregulated in", input$comparisonA , "group.")
-      #}
-      #paste(NES.o, Pval.o, UpOrDown, sep = '\n')
       paste(NES.o, Pval.o, sep = '\n')
     }
     else if (length(input$msigdbTable_rows_selected) == 0){
@@ -478,6 +478,8 @@ server <- function(input, output, session) {
   )
   
 }
+
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
