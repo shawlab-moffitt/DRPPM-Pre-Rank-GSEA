@@ -54,7 +54,7 @@ ui <-
                                    checkboxInput("UserGeneListheaderCheck","Header",value = T)
                             )
                           ),
-                          numericInput("gseaPval","GSEA Pvalue Cutoff",value = 1),
+                          numericInput("gseaPval","GSEA Adjusted Pvalue Cutoff",value = 1),
                           radioButtons("GeneSetChosen","Choose Gene Set:",
                                        choices = c("MSigDB - Hallmark","MSigDB - All","LINCS L1000 Up-Regulated","LINCS L1000 Down-Regulated","Cell Marker","ER Stress","Immune Signatures","All Gene Sets","User Upload"),
                                        selected = "MSigDB - Hallmark", inline = F),
