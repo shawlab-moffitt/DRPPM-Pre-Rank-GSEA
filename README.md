@@ -87,11 +87,16 @@ git clone https://github.com/shawlab-moffitt/DRPPM-PreRanked-GSEA.git
 ![alt text](https://github.com/shawlab-moffitt/DRPPM-PreRanked-GSEA/blob/main/App_Pictures/PreRankGSEA_FirstTab.png?raw=true)
 
 1. The user may upload their file here
+   * Please check off if there is a header in your file
 2. The GSEA function allows for an adjusted P.value cutoff to cutoff gene sets included in the enrichment table
-3. The user may choose a gene set from the comprehensive list we provide or upload their own
-   * Please note that depending on the size of the gene set, the enriched signatures table may take an extended period of time to generate
-4. The Enriched signatures table will display when finished
-5. When completed the table can be downloaded for furture use
+3. The user may upload a ranked gene list of gene symbols corresponding to Human or Mouse
+   * There are currently limited gene set databases available in the app for the mouse genome
+   * The available gene set databases in the drop-down box will update depending on what specimen is chosen
+   * When seleting a gene set, please note that depending on the size of the gene set, the enriched signatures table may take an extended period of time to generate
+4. The user may upload their own gene set to perform GSEA
+5. The user may preview all of the gene sets within the selected or uploaded gene set list
+6. The Enriched signatures table will display when finished
+7. When completed the table can be downloaded for furture use
 
 ## Enrichment Plots
 
